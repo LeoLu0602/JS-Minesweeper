@@ -86,12 +86,16 @@ function printBoard() {
     document.getElementById("board").innerHTML = boardHTML;
 }
 
+function Game() {
+    setBombs();
+    initializeBoard();
+    printBoard();
+}
+
 const numberOfRow = 16;
 const numberOfCol = 16;
 const numberOfBombs = 8;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
 
-setBombs();
-initializeBoard();
-printBoard();
+Game();
