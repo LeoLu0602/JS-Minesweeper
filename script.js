@@ -78,12 +78,16 @@ function printBoard() {
     for (let i = 0; i < numberOfRow; i++) {
         boardHTML += "<tr>";
         for (let j = 0; j < numberOfCol; j++) {
-            if (board[i][j] == "&nbsp;") boardHTML += "<td>" + board[i][j] + "</td>";
+            if (board[i][j] == "&nbsp;") boardHTML += "<td onclick='handleClick(this)'" + "id=" + (i * numberOfRow + j + 1).toString() + ">" + board[i][j] + "</td>";
             if (board[i][j] != "&nbsp;") boardHTML += "<td class='clicked'>" + board[i][j] + "</td>";
         }
         boardHTML += "</tr>"
     }
     document.getElementById("board").innerHTML = boardHTML;
+}
+
+function handleClick(x) {
+    console.log(x.id); // for testing
 }
 
 function Game() {
@@ -97,5 +101,6 @@ const numberOfCol = 16;
 const numberOfBombs = 8;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
+const endGame = false;
 
 Game();
