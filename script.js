@@ -86,8 +86,14 @@ function printBoard() {
     document.getElementById("board").innerHTML = boardHTML;
 }
 
+function click(Id) { // Currently Working
+    const j = (Id - 1) % numberOfRow;
+    const i = (Id - j - 1) / numberOfRow;
+    // document.getElementById(Id).className = "clicked";
+}
+
 function handleClick(x) {
-    console.log(x.id); // for testing
+    click(x.id)
 }
 
 function Game() {
