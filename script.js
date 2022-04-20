@@ -10,7 +10,10 @@ function printBoard() {
     let boardHTML = "";
     for (let i = 0; i < numberOfRow; i++) {
         boardHTML += "<tr>";
-        for (let j = 0; j < numberOfCol; j++) boardHTML += "<td>" + board[i][j] + "</td>";
+        for (let j = 0; j < numberOfCol; j++) {
+            if (board[i][j] == "&nbsp;") boardHTML += "<td>" + board[i][j] + "</td>";
+            if (board[i][j] != "&nbsp;") boardHTML += "<td class='clicked'>" + board[i][j] + "</td>";
+        }
         boardHTML += "</tr>"
     }
     document.getElementById("board").innerHTML = boardHTML;
