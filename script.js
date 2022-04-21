@@ -71,6 +71,11 @@ function initializeBoard() {
         for (let j = 0; j < numberOfCol; j++) tmp.push("&nbsp;");
         board.push(tmp);
     }
+    for (let i = 0; i < numberOfRow; i++) {
+        const tmp = [];
+        for (let j = 0; j < numberOfCol; j++) tmp.push(false);
+        clickedOrNot.push(tmp);
+    }
 }
 
 function printBoard() {
@@ -86,14 +91,87 @@ function printBoard() {
     document.getElementById("board").innerHTML = boardHTML;
 }
 
-function click(Id) { // Currently Working
-    const j = (Id - 1) % numberOfRow;
-    const i = (Id - j - 1) / numberOfRow;
-    // document.getElementById(Id).className = "clicked";
+function click(i, j) {
+    const top = 0;
+    const bottom = numberOfRow - 1;
+    const left = 0;
+    const right = numberOfCol - 1;
+
+    clickedOrNot[i][j] = true;
+    if (boardState[i][j] == -1) {
+        document.getElementById((i * numberOfRow + j + 1).toString()).style.backgroundColor = "purple";
+        for (let ii = 0; ii < numberOfRow; i++) {
+            for (let jj = 0; jj < numberOfCol; j++) {
+                if (boardState[ii][jj] == -1) {
+                    document.getElementById((i * numberOfRow + j + 1).toString()).style.backgroundColor = "purple";
+                }
+            }
+        }
+    }
+    if (boardState[i][j] == 0) {
+        document.getElementById((i * numberOfRow + j + 1).toString()).className = "clicked"; 
+        if (i - 1 >= top) {
+            if (!clickedOrNot[i - 1][j]) click(i - 1, j);
+            if (j - 1 >= left && !clickedOrNot[i - 1][j - 1]) click(i - 1, j - 1);
+            if (j + 1 <= right && !clickedOrNot[i - 1][j + 1]) click(i - 1, j + 1);
+        }
+        if (i + 1 <= bottom) {
+            if (!clickedOrNot[i + 1][j]) click(i + 1, j);
+            if (j - 1 >= left && !clickedOrNot[i + 1][j - 1]) click(i + 1, j - 1);
+            if (j + 1 <= right && !clickedOrNot[i + 1][j + 1]) click(i + 1, j + 1);
+        }
+        if (j - 1 >= left) {
+            if (!clickedOrNot[i][j - 1]) click(i, j - 1);
+        }
+        if (j + 1 <= right) {
+            if (!clickedOrNot[i][j + 1]) click(i, j + 1);
+        }
+    }
+    if (boardState[i][j] > 0) {
+        let bombsNum;
+        let numColor;
+        document.getElementById((i * numberOfRow + j + 1).toString()).className = "clicked";
+        if (boardState[i][j] == 1) {
+            bombsNum = "1";
+            numColor = "blue";
+        }
+        if (boardState[i][j] == 2) {
+            bombsNum = "2";
+            numColor = "green";
+        }
+        if (boardState[i][j] == 3) {
+            bombsNum = "3";
+            numColor = "red";
+        }
+        if (boardState[i][j] == 4) {
+            bombsNum = "4";
+            numColor = "blue";
+        }
+        if (boardState[i][j] == 5) {
+            bombsNum = "5";
+            numColor = "brown";
+        }
+        if (boardState[i][j] == 6) {
+            bombsNum = "6";
+            numColor = "lightseagreen";
+        }
+        if (boardState[i][j] == 7) {
+            bombsNum = "7";
+            numColor = "black";
+        }
+        if (boardState[i][j] == 8) {
+            bombsNum = "8";
+            numColor = "white";
+        }
+        document.getElementById((i * numberOfRow + j + 1).toString()).innerHTML = bombsNum;
+        document.getElementById((i * numberOfRow + j + 1).toString()).style.color = numColor;
+    }
 }
 
 function handleClick(x) {
-    click(x.id)
+    const j = (x.id - 1) % numberOfRow;
+    const i = (x.id - j - 1) / numberOfRow;
+    click(i, j);
 }
 
 function Game() {
@@ -104,9 +182,10 @@ function Game() {
 
 const numberOfRow = 16;
 const numberOfCol = 16;
-const numberOfBombs = 8;
+const numberOfBombs = 25;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
+const clickedOrNot = []; // hidden from player
 const endGame = false;
 
 Game();
