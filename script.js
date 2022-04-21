@@ -99,14 +99,11 @@ function click(i, j) {
 
     clickedOrNot[i][j] = true;
     if (boardState[i][j] == -1) {
-        document.getElementById((i * numberOfRow + j + 1).toString()).style.backgroundColor = "purple";
-        for (let ii = 0; ii < numberOfRow; i++) {
-            for (let jj = 0; jj < numberOfCol; j++) {
-                if (boardState[ii][jj] == -1) {
-                    document.getElementById((i * numberOfRow + j + 1).toString()).style.backgroundColor = "purple";
-                }
+        for (let ii = 0; ii < numberOfRow; ii++) {
+            for (let jj = 0; jj < numberOfCol; jj++) {
+                if (boardState[ii][jj] == -1) document.getElementById((ii * numberOfRow + jj + 1).toString()).style.backgroundColor = "black";
             }
-        }
+        }   
     }
     if (boardState[i][j] == 0) {
         document.getElementById((i * numberOfRow + j + 1).toString()).className = "clicked"; 
@@ -186,6 +183,5 @@ const numberOfBombs = 25;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
 const clickedOrNot = []; // hidden from player
-const endGame = false;
 
 Game();
