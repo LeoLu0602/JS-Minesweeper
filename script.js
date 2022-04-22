@@ -83,12 +83,32 @@ function printBoard() {
     for (let i = 0; i < numberOfRow; i++) {
         boardHTML += "<tr>";
         for (let j = 0; j < numberOfCol; j++) {
-            if (board[i][j] == "&nbsp;") boardHTML += "<td onclick='handleClick(this)'" + "id=" + (i * numberOfRow + j + 1).toString() + ">" + board[i][j] + "</td>";
+            if (board[i][j] == "&nbsp;") boardHTML += "<td onclick='handleClick(this)' oncontextmenu='rightClick(this);return false;'" + "id=" + (i * numberOfRow + j + 1).toString() + ">" + board[i][j] + "</td>";
             if (board[i][j] != "&nbsp;") boardHTML += "<td class='clicked'>" + board[i][j] + "</td>";
         }
         boardHTML += "</tr>"
     }
     document.getElementById("board").innerHTML = boardHTML;
+}
+
+function rightClick(x) {
+    const j = (x.id - 1) % numberOfRow;
+    const i = (x.id - j - 1) / numberOfRow;
+    const block = document.getElementById((i * numberOfRow + j + 1).toString());
+    if (block.style.backgroundColor != "red" && !clickedOrNot[i][j]) {
+        block.innerHTML = "!";
+        block.style.backgroundColor = "red";
+        block.style.color = "black";
+        flagList.push(x.id);
+    }
+    else if (block.style.backgroundColor == "red") {
+        block.innerHTML = "";
+        block.style.backgroundColor = "rgb(255, 111, 0)";
+        block.style.innerHTML = "";
+        flagList.splice(flagList.indexOf(x.id), 1)
+
+    }
+    console.log(flagList)
 }
 
 function click(i, j) {
@@ -183,5 +203,6 @@ const numberOfBombs = 25;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
 const clickedOrNot = []; // hidden from player
+const flagList = [];
 
 Game();
