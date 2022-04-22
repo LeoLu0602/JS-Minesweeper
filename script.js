@@ -89,7 +89,7 @@ function printBoard() {
     for (let i = 0; i < numberOfRow; i++) {
         boardHTML += "<tr>";
         for (let j = 0; j < numberOfCol; j++) {
-            if (board[i][j] == "&nbsp;") boardHTML += "<td onclick='handleClick(this)' oncontextmenu='rightClick(this);return false;'" + "id=" + (i * numberOfRow + j + 1).toString() + ">" + board[i][j] + "</td>";
+            if (board[i][j] == "&nbsp;") boardHTML += "<td onclick='handleClick(this)' oncontextmenu='rightClick(this);return false;'" + "id=" + (i * numberOfCol + j + 1).toString() + ">" + board[i][j] + "</td>";
             if (board[i][j] != "&nbsp;") boardHTML += "<td class='clicked'>" + board[i][j] + "</td>";
         }
         boardHTML += "</tr>"
@@ -98,9 +98,9 @@ function printBoard() {
 }
 
 function rightClick(x) {
-    const j = (x.id - 1) % numberOfRow;
-    const i = (x.id - j - 1) / numberOfRow;
-    const block = document.getElementById((i * numberOfRow + j + 1).toString());
+    const j = (x.id - 1) % numberOfCol;
+    const i = (x.id - j - 1) / numberOfCol;
+    const block = document.getElementById((i * numberOfCol + j + 1).toString());
     if (block.style.backgroundColor != "red" && !clickedOrNot[i][j]) {
         block.innerHTML = "!";
         block.style.backgroundColor = "red";
@@ -123,20 +123,20 @@ function click(i, j) {
     const left = 0;
     const right = numberOfCol - 1;
 
-    if (document.getElementById((i * numberOfRow + j + 1).toString()).style.backgroundColor != "red") { //red block cannot be clicked
+    if (document.getElementById((i * numberOfCol + j + 1).toString()).style.backgroundColor != "red") { //red block cannot be clicked
         clickedOrNot[i][j] = true;
         if (boardState[i][j] == -1 && !endGame) {
             for (let ii = 0; ii < numberOfRow; ii++) {
                 for (let jj = 0; jj < numberOfCol; jj++) {
                     if (boardState[ii][jj] == -1) {
-                        document.getElementById((ii * numberOfRow + jj + 1).toString()).style.backgroundColor = "black";
+                        document.getElementById((ii * numberOfCol + jj + 1).toString()).style.backgroundColor = "black";
                     }
                 }
             }
             gameOver(false);   
         }
         if (boardState[i][j] == 0 && !endGame) {
-            document.getElementById((i * numberOfRow + j + 1).toString()).className = "clicked"; 
+            document.getElementById((i * numberOfCol + j + 1).toString()).className = "clicked"; 
             if (i - 1 >= top) {
                 if (!clickedOrNot[i - 1][j]) click(i - 1, j);
                 if (j - 1 >= left && !clickedOrNot[i - 1][j - 1]) click(i - 1, j - 1);
@@ -157,7 +157,7 @@ function click(i, j) {
         if (boardState[i][j] > 0 && !endGame) {
             let bombsNum;
             let numColor;
-            document.getElementById((i * numberOfRow + j + 1).toString()).className = "clicked";
+            document.getElementById((i * numberOfCol + j + 1).toString()).className = "clicked";
             if (boardState[i][j] == 1) {
                 bombsNum = "1";
                 numColor = "blue";
@@ -190,17 +190,17 @@ function click(i, j) {
                 bombsNum = "8";
                 numColor = "white";
             }
-            document.getElementById((i * numberOfRow + j + 1).toString()).innerHTML = bombsNum;
-            document.getElementById((i * numberOfRow + j + 1).toString()).style.color = numColor;
+            document.getElementById((i * numberOfCol + j + 1).toString()).innerHTML = bombsNum;
+            document.getElementById((i * numberOfCol + j + 1).toString()).style.color = numColor;
             // when flag is removed and clicked, .clicked does not change the background-color 
-            document.getElementById((i * numberOfRow + j + 1).toString()).style.backgroundColor = "rgb(180, 180, 180)";
+            document.getElementById((i * numberOfCol + j + 1).toString()).style.backgroundColor = "rgb(180, 180, 180)";
         }
     }
 }
 
 function handleClick(x) {
-    const j = (x.id - 1) % numberOfRow;
-    const i = (x.id - j - 1) / numberOfRow;
+    const j = (x.id - 1) % numberOfCol;
+    const i = (x.id - j - 1) / numberOfCol;
     click(i, j);
 }
 
@@ -215,9 +215,25 @@ function check() {
     if (pass) gameOver(true);
 }
 
+function menu() {
+    document.getElementById("txt").innerHTML = "JS Minesweeper";
+    document.getElementById("board").innerHTML = "";
+    let menuHTML = "";
+    menuHTML += "<br><form><br>";
+    menuHTML += "<label for='numberOfRows'>Number of Rows:</label><br><input type='text' id='numberOfRows'><br><br>";
+    menuHTML += "<label for='numberOfCols'>Number of Columns:</label><br><input type='text' id='numberOfCols'><br><br>";
+    menuHTML += "<label for='numberOfMines'>Number of Mines:</label><br><input type='text' id='numberOfMines'><br><br><br>";
+    menuHTML += "</form>";
+    menuHTML += "<br><button id='submitBtn' onclick='Game()'>Submit</button>";
+    document.getElementById("menu").innerHTML = menuHTML;
+}
+
 function Game() {
     endGame = false;
-    document.getElementById("txt").innerHTML = "JS Minesweeper";
+    numberOfRow = document.getElementById("numberOfRows").value;
+    numberOfCol = document.getElementById("numberOfCols").value;
+    numberOfBombs = document.getElementById("numberOfMines").value;
+    document.getElementById("menu").innerHTML = "";
     setBombs();
     initializeBoard();
     printBoard();
@@ -225,24 +241,25 @@ function Game() {
 
 function gameOver(win) {
     if (win) {
-        document.getElementById("txt").innerHTML = "<button id='newGameBtn' onclick='Game()'>New Game</botton>"
+        document.getElementById("txt").innerHTML = "<button id='newGameBtn' onclick='menu()'>New Game</botton>"
     }
     if (!win) {
-        document.getElementById("txt").innerHTML = "<button id='newGameBtn' onclick='Game()'>Try Again</botton>"
+        document.getElementById("txt").innerHTML = "<button id='newGameBtn' onclick='menu()'>Try Again</botton>"
     }
 
     // not allow user to click after the game is over
     endGame = true;
 }
 
-const numberOfRow = 16;
-const numberOfCol = 16;
-const numberOfBombs = 3;
+let numberOfRow = 16;
+let numberOfCol = 16;
+let numberOfBombs = 3;
 let endGame = false;
+let submit = false;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
 const clickedOrNot = []; // hidden from player
 const radomNumbers = new Set();
 const flagList = [];
 
-Game();
+menu();
