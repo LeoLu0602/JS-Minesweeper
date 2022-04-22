@@ -101,14 +101,14 @@ function rightClick(x) {
     const j = (x.id - 1) % numberOfRow;
     const i = (x.id - j - 1) / numberOfRow;
     const block = document.getElementById((i * numberOfRow + j + 1).toString());
-    if (block.style.backgroundColor != "red" && !clickedOrNot[i][j]) {
+    if (block.style.backgroundColor != "red" && !clickedOrNot[i][j] && !endGame) {
         block.innerHTML = "!";
         block.style.backgroundColor = "red";
         block.style.color = "black";
         flagList.push(x.id);
         if (flagList.length == numberOfBombs) check();
     }
-    else if (block.style.backgroundColor == "red" && !clickedOrNot[i][j]) {
+    else if (block.style.backgroundColor == "red" && !clickedOrNot[i][j] && ! endGame) {
         block.innerHTML = "";
         block.style.backgroundColor = "rgb(255, 111, 0)";
         block.style.innerHTML = "";
