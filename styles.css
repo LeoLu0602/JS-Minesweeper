@@ -25,3 +25,12 @@ div {
     font-size: 25px;
     font-weight: 900;
 }
+
+#newGameBtn {
+    text-align: center;
+    color: white;
+    background-color: green;
+    font-family: 'Arial';
+    font-size: 18px;
+    font-weight: 900;
+}
