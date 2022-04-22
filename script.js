@@ -237,7 +237,7 @@ function gameOver(win) {
 
 const numberOfRow = 16;
 const numberOfCol = 16;
-const numberOfBombs = 3;
+const numberOfBombs = 25;
 let endGame = false;
 const board = []; // displayed to player
 const boardState = []; // hidden from player
