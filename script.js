@@ -113,7 +113,7 @@ function rightClick(x) {
         block.style.backgroundColor = "rgb(255, 111, 0)";
         block.style.innerHTML = "";
         flagList.splice(flagList.indexOf(x.id), 1)
-
+        if (flagList.length == numberOfBombs) check();
     }
 }
 
