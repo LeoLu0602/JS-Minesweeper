@@ -251,9 +251,9 @@ function gameOver(win) {
     endGame = true;
 }
 
-const numberOfRow = 16;
-const numberOfCol = 16;
-const numberOfBombs = 25;
+let numberOfRow = 16;
+let numberOfCol = 16;
+let numberOfBombs = 25;
 let endGame = false;
 let submit = false;
 const board = []; // displayed to player
