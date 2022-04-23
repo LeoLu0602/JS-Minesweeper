@@ -8,17 +8,31 @@ td {
     font-weight: 900;
 }
 
-.clicked {
-    background-color: rgb(180, 180, 180);
-    transition: background-color 300ms linear;
-}
-
 table {
     margin-left: auto;
     margin-right: auto;
 }
 
-div {
+form {
+    background-color: gray;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+.clicked {
+    background-color: rgb(180, 180, 180);
+    transition: background-color 300ms linear;
+}
+
+#menu {
+    text-align: center;
+    color: rgb(255, 111, 0);
+    font-family: 'Arial';
+    font-size: 20px;
+    font-weight: 800;
+}
+
+#txt {
     text-align: center;
     color: rgb(255, 111, 0);
     font-family: 'Arial';
@@ -33,4 +47,12 @@ div {
     font-family: 'Arial';
     font-size: 18px;
     font-weight: 900;
+}
+
+#submitBtn {
+    text-align: center;
+    background-color: greenyellow;
+    font-family: 'Arial';
+    font-size: 20px;
+    font-weight: 800;  
 }
